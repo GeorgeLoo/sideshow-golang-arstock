@@ -41,8 +41,17 @@ const (
 	kModelsFile = "D:\\agloo\\dev\\arstockdb\\databasefiles\\models.txt"
 )
 
+type accDataObj struct {
+	dataStr []string 
 
-func main() {
+}
+
+var (
+	arstock accDataObj
+
+)
+
+func (a *accDataObj) loadmodels() {
     file, err := os.Open(kModelsFile)
     if err != nil {
         log.Fatal(err)
@@ -52,11 +61,21 @@ func main() {
     scanner := bufio.NewScanner(file)
     for scanner.Scan() {
         fmt.Println(scanner.Text())
+        a.dataStr = append(a.dataStr, scanner.Text())
     }
 
     if err := scanner.Err(); err != nil {
         log.Fatal(err)
     }
+}
+
+func main() {
+
+	arstock.loadmodels()
+	fmt.Println("hello --------------- jibai")
+	fmt.Println(arstock.dataStr[0])
+	last := len(arstock.dataStr)
+	fmt.Println(arstock.dataStr[last-1])
 }
 
 // from https://stackoverflow.com/questions/8757389/reading-file-line-by-line-in-go
