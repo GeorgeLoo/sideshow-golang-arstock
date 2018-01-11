@@ -39,10 +39,12 @@ import (
 
 const (
 	kModelsFile = "D:\\agloo\\dev\\arstockdb\\databasefiles\\models.txt"
+	kDataFile = "D:\\agloo\\dev\\arstockdb\\databasefiles\\database.txt"
 )
 
 type accDataObj struct {
-	dataStr []string 
+	modelsList []string 
+	recordsList []string
 
 }
 
@@ -61,7 +63,7 @@ func (a *accDataObj) loadmodels() {
     scanner := bufio.NewScanner(file)
     for scanner.Scan() {
         fmt.Println(scanner.Text())
-        a.dataStr = append(a.dataStr, scanner.Text())
+        a.modelsList = append(a.modelsList, scanner.Text())
     }
 
     if err := scanner.Err(); err != nil {
@@ -69,13 +71,37 @@ func (a *accDataObj) loadmodels() {
     }
 }
 
+func (a *accDataObj) loadfile(fn string, listb *[]string) {
+    file, err := os.Open(fn)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer file.Close()
+
+    scanner := bufio.NewScanner(file)
+    for scanner.Scan() {
+        //fmt.Println(scanner.Text())
+        *listb = append(*listb, scanner.Text())
+    }
+
+    if err := scanner.Err(); err != nil {
+        log.Fatal(err)
+    }
+    fmt.Println("Loadfile ends")
+}
+
+
 func main() {
 
-	arstock.loadmodels()
+	//arstock.loadmodels()
+	arstock.loadfile(kModelsFile, &arstock.modelsList)
 	fmt.Println("hello --------------- jibai")
-	fmt.Println(arstock.dataStr[0])
-	last := len(arstock.dataStr)
-	fmt.Println(arstock.dataStr[last-1])
+	fmt.Println(arstock.modelsList[0])
+	last := len(arstock.modelsList)
+	fmt.Println(last)
+	fmt.Println(arstock.modelsList[last-1])
+
+
 }
 
 // from https://stackoverflow.com/questions/8757389/reading-file-line-by-line-in-go
