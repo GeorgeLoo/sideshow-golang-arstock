@@ -1,0 +1,25 @@
+
+
+
+11.1.2018 George Loo
+
+Arstock acc command speeded up by golang
+========================================
+
+23 seconds on python 11.1.2018
+
+to learn more of golang
+
+1st attempt...
+read all into memory and process from there
+
+
+open up models.txt and output
+
+----------------------------------------\
+
+
+
+
+
+## end
