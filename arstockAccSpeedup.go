@@ -34,6 +34,7 @@ import (
     "io"
     "os"
     "log"
+    "strings"
 
 )
 
@@ -92,6 +93,7 @@ func (a *accDataObj) loadfile(fn string, listb *[]string) {
 
 
 func main() {
+	var i int
 
 	//arstock.loadmodels()
 	arstock.loadfile(kModelsFile, &arstock.modelsList)
@@ -101,6 +103,20 @@ func main() {
 	fmt.Println(last)
 	fmt.Println(arstock.modelsList[last-1])
 
+	arstock.loadfile(kDataFile, &arstock.recordsList)
+	fmt.Println("hello --------------- jibai")
+	fmt.Println(arstock.recordsList[0])
+	last = len(arstock.recordsList)
+	fmt.Println(last)
+	fmt.Println(arstock.recordsList[last-1])
+
+	aRecordSlice := strings.Split(arstock.recordsList[last-1], ",")
+	i = 0
+	for i < 11 {
+		fmt.Println(aRecordSlice[i])
+		i += 1
+	
+	}
 
 }
 
