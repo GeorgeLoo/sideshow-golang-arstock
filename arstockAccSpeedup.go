@@ -43,6 +43,13 @@ const (
 	kDataFile = "D:\\agloo\\dev\\arstockdb\\databasefiles\\database.txt"
 )
 
+type modelsIndicesObj struct {
+	modelidx int 
+	length int
+	indices []int
+
+}
+
 type accDataObj struct {
 	modelsList []string 
 	recordsList []string
@@ -51,6 +58,7 @@ type accDataObj struct {
 
 var (
 	arstock accDataObj
+	modelsIdx []modelsIndicesObj
 
 )
 
@@ -88,7 +96,33 @@ func (a *accDataObj) loadfile(fn string, listb *[]string) {
     if err := scanner.Err(); err != nil {
         log.Fatal(err)
     }
-    fmt.Println("Loadfile ends")
+    fmt.Println("Loadfile ends", fn)
+}
+
+
+func test1() {
+
+	var arr []int
+	var brr []int
+
+	arr = append(arr,37)
+	brr = append(brr,1965)
+
+	modelsIdx = append(modelsIdx, modelsIndicesObj{ 10, 123, arr })
+	modelsIdx = append(modelsIdx, modelsIndicesObj{ 12, 456, brr })
+
+	fmt.Println("test1")
+	fmt.Println(modelsIdx[0].modelidx)
+	fmt.Println(modelsIdx[0].length)
+	fmt.Println(modelsIdx[0].indices[0])
+
+	//modelsIdx[1].indices[0] = 88
+	fmt.Println(modelsIdx[1].modelidx)
+	fmt.Println(modelsIdx[1].length)
+	fmt.Println(modelsIdx[1].indices[0])
+	fmt.Println(modelsIdx[0].indices[0])
+
+
 }
 
 
@@ -112,11 +146,13 @@ func main() {
 
 	aRecordSlice := strings.Split(arstock.recordsList[last-1], ",")
 	i = 0
-	for i < 11 {
+	for i < 11 {  // like a while loop
 		fmt.Println(aRecordSlice[i])
 		i += 1
 	
 	}
+
+	test1()
 
 }
 
