@@ -36,6 +36,8 @@ import (
     "log"
     "strings"
     "strconv"
+	"unicode/utf8"
+
 
 )
 
@@ -106,6 +108,11 @@ func (a *accDataObj) loadfile(fn string, listb *[]string) {
     fmt.Println("Loadfile ends", fn)
 }
 
+/**/
+/*
+
+	bug Archer C1200 counts as zero when the answer should be 246!
+*/
 func bruteforceProcessing() {
 	var (
 		i, last, j, lastRec, qty int
@@ -116,17 +123,31 @@ func bruteforceProcessing() {
 	j = 0
 	qty = 1
 	last = len(arstock.modelsList)
-	//last = 10
+	last = 4
 	lastRec = len(arstock.recordsList)
 	//lastRec = 10
 	for i < last {  // like a while loop
 		//fmt.Println(arstock.modelsList[i])
 		j = 0
 		qty = 0
+
+		fmt.Printf("hex %x \n", arstock.modelsList[i])
+		
 		for j < lastRec {
 			aRecordSlice := strings.Split(arstock.recordsList[j], ",")
 			//fmt.Println(aRecordSlice[kModelnameIdx])
+			if !utf8.ValidString(arstock.modelsList[i]) {
+				fmt.Println("eeeeeeeeeeeeeeee model name not utf8",arstock.modelsList[i])
+			}
+			if !utf8.ValidString(aRecordSlice[kModelnameIdx]) {
+				fmt.Println("rrrrrrrrrrrrrrrr record name not utf8",aRecordSlice[kModelnameIdx])
+			}
+
+			//recordsString := strings.ToUpper(aRecordSlice[kModelnameIdx])
+			//modelsString := strings.ToUpper(arstock.modelsList[i])
+
 			if aRecordSlice[kModelnameIdx] == arstock.modelsList[i] {
+			//if recordsString == modelsString {
 				//fmt.Println(arstock.recordsList[j])
 				rq, err := strconv.Atoi(aRecordSlice[kQuantityField])
 				if err != nil {
@@ -142,7 +163,7 @@ func bruteforceProcessing() {
 			
 			j += 1
 		}
-		fmt.Println(arstock.modelsList[i]," = ", qty)
+		fmt.Println(arstock.modelsList[i],"=", qty)
 		i += 1
 	}
 
