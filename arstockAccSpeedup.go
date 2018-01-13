@@ -116,14 +116,14 @@ func bruteforceProcessing() {
 	j = 0
 	qty = 1
 	last = len(arstock.modelsList)
-	last = 10
+	//last = 10
 	lastRec = len(arstock.recordsList)
 	//lastRec = 10
-	for i < last - 1 {  // like a while loop
+	for i < last {  // like a while loop
 		//fmt.Println(arstock.modelsList[i])
 		j = 0
 		qty = 0
-		for j < lastRec - 1 {
+		for j < lastRec {
 			aRecordSlice := strings.Split(arstock.recordsList[j], ",")
 			//fmt.Println(aRecordSlice[kModelnameIdx])
 			if aRecordSlice[kModelnameIdx] == arstock.modelsList[i] {
