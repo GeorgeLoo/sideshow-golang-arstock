@@ -35,12 +35,19 @@ import (
     "os"
     "log"
     "strings"
+    "strconv"
 
 )
 
 const (
 	kModelsFile = "D:\\agloo\\dev\\arstockdb\\databasefiles\\models.txt"
 	kDataFile = "D:\\agloo\\dev\\arstockdb\\databasefiles\\database.txt"
+	kModelnameIdx = 5
+	kQuantityField = 6
+	kFromField = 7
+	kCompanyName = "AR2000"
+	kToField = 8
+
 )
 
 type modelsIndicesObj struct {
@@ -99,6 +106,47 @@ func (a *accDataObj) loadfile(fn string, listb *[]string) {
     fmt.Println("Loadfile ends", fn)
 }
 
+func bruteforceProcessing() {
+	var (
+		i, last, j, lastRec, qty int
+		//rq int 
+
+	)
+	i = 0
+	j = 0
+	qty = 1
+	last = len(arstock.modelsList)
+	last = 10
+	lastRec = len(arstock.recordsList)
+	//lastRec = 10
+	for i < last - 1 {  // like a while loop
+		//fmt.Println(arstock.modelsList[i])
+		j = 0
+		qty = 0
+		for j < lastRec - 1 {
+			aRecordSlice := strings.Split(arstock.recordsList[j], ",")
+			//fmt.Println(aRecordSlice[kModelnameIdx])
+			if aRecordSlice[kModelnameIdx] == arstock.modelsList[i] {
+				//fmt.Println(arstock.recordsList[j])
+				rq, err := strconv.Atoi(aRecordSlice[kQuantityField])
+				if err != nil {
+					fmt.Println("error qty!", aRecordSlice[kQuantityField])
+				}
+				if aRecordSlice[kFromField] == kCompanyName {
+					qty -= rq
+				} else if aRecordSlice[kToField] == kCompanyName {
+					qty += rq
+				}
+				
+			}
+			
+			j += 1
+		}
+		fmt.Println(arstock.modelsList[i]," = ", qty)
+		i += 1
+	}
+
+}
 
 func test1() {
 
@@ -153,6 +201,7 @@ func main() {
 	}
 
 	test1()
+	bruteforceProcessing()
 
 }
 
